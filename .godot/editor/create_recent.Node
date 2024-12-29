@@ -1,0 +1,11 @@
+Node3D
+MeshInstance3D
+Sprite3D
+Parallax2D
+ParallaxLayer
+ParallaxBackground
+WorldEnvironment
+CollisionShape3D
+StaticBody3D
+OmniLight3D
+SpotLight3D
