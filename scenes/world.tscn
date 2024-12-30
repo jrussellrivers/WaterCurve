@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cm1rrycovnq0a"]
+[gd_scene load_steps=19 format=3 uid="uid://cm1rrycovnq0a"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_iugm4"]
 [ext_resource type="Texture2D" uid="uid://3vwy58tw7385" path="res://icon.png" id="2_ugcop"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="4_pb4yj"]
 [ext_resource type="ArrayMesh" uid="uid://c45awlvh220wx" path="res://assets/blender/world_mesh.obj" id="5_qncqm"]
 [ext_resource type="Shader" path="res://shaders/rolling.gdshader" id="6_bynpf"]
+[ext_resource type="Script" path="res://npc_ship_test.gd" id="7_wea6i"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_hxtat"]
 
@@ -30,6 +31,7 @@ shader_parameter/active = true
 shader_parameter/remap_normals = true
 shader_parameter/RADIUS = 35.0
 shader_parameter/hang = true
+shader_parameter/z_offset = 0.0
 shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
 shader_parameter/WATER2_COL = Color(0.0319583, 0.323766, 0.727357, 1)
 shader_parameter/FOAM_COL = Color(0.335608, 0.583814, 0.994776, 1)
@@ -44,6 +46,7 @@ shader_parameter/active = true
 shader_parameter/remap_normals = true
 shader_parameter/RADIUS = 35.0
 shader_parameter/hang = false
+shader_parameter/z_offset = 0.0
 shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/point_size = null
 shader_parameter/roughness = null
@@ -51,11 +54,46 @@ shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = null
 shader_parameter/metallic = 0.0
 
+[sub_resource type="BoxMesh" id="BoxMesh_imjq7"]
+subdivide_depth = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2jgq"]
+render_priority = 0
+shader = ExtResource("6_bynpf")
+shader_parameter/active = true
+shader_parameter/remap_normals = true
+shader_parameter/RADIUS = 35.0
+shader_parameter/hang = true
+shader_parameter/z_offset = -10.0
+shader_parameter/albedo = Color(0.741385, 0.741385, 0.741385, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+
+[sub_resource type="BoxMesh" id="BoxMesh_3endr"]
+subdivide_depth = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ii4hn"]
+render_priority = 0
+shader = ExtResource("6_bynpf")
+shader_parameter/active = true
+shader_parameter/remap_normals = true
+shader_parameter/RADIUS = 35.0
+shader_parameter/hang = true
+shader_parameter/z_offset = 0.0
+shader_parameter/albedo = Color(0.741385, 0.741385, 0.741385, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+
 [node name="Node3D" type="Node3D"]
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, -4.37114e-08, 4.37114e-08, 1.91069e-15, 1, 0, -1, 1.91069e-15, 0, 5, 0)
-light_energy = 2.0
 light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.0
 shadow_normal_bias = 0.0
@@ -67,7 +105,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_hxtat")
 
 [node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_iugm4")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
@@ -113,7 +150,19 @@ surface_material_override/0 = SubResource("ShaderMaterial_00xug")
 [node name="TestBlender" type="Node3D" parent="."]
 
 [node name="BoxMesh" type="MeshInstance3D" parent="TestBlender"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, -0.1, 0)
 mesh = ExtResource("5_qncqm")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_l3iw8")
+
+[node name="TestBox1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+mesh = SubResource("BoxMesh_imjq7")
+surface_material_override/0 = SubResource("ShaderMaterial_j2jgq")
+script = ExtResource("7_wea6i")
+
+[node name="TestBox2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+mesh = SubResource("BoxMesh_3endr")
+surface_material_override/0 = SubResource("ShaderMaterial_ii4hn")
+script = ExtResource("7_wea6i")

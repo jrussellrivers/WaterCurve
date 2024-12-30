@@ -13,3 +13,4 @@ res://shaders/rolling_log.gdshaderinc
 res://shaders/rolling.gdshader
 res://shaders/water.gdshaderinc
 res://shaders/ocean.gdshader
+res://npc_ship_test.gd
