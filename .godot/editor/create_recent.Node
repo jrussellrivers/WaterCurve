@@ -1,11 +1,13 @@
 Node3D
 MeshInstance3D
+StaticBody3D
+Node2D
+MultiMeshInstance3D
 Sprite3D
 Parallax2D
 ParallaxLayer
 ParallaxBackground
 WorldEnvironment
 CollisionShape3D
-StaticBody3D
 OmniLight3D
 SpotLight3D

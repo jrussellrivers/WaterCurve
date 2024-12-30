@@ -1,12 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://cm1rrycovnq0a"]
+[gd_scene load_steps=14 format=3 uid="uid://cm1rrycovnq0a"]
 
-[ext_resource type="Script" path="res://player_default.gd" id="1_kk3xm"]
-[ext_resource type="Script" path="res://Camera.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://3vwy58tw7385" path="res://icon.png" id="3_esruw"]
-[ext_resource type="Shader" path="res://ocean.gdshader" id="4_y7bha"]
-[ext_resource type="Shader" path="res://rolling.gdshader" id="5_6ydy4"]
-[ext_resource type="ArrayMesh" uid="uid://c45awlvh220wx" path="res://world_mesh.obj" id="5_a1cjj"]
-[ext_resource type="Texture2D" uid="uid://bf6ysev45u8kb" path="res://clouds.png" id="7_g336n"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_iugm4"]
+[ext_resource type="Texture2D" uid="uid://3vwy58tw7385" path="res://icon.png" id="2_ugcop"]
+[ext_resource type="Texture2D" uid="uid://bf6ysev45u8kb" path="res://assets/clouds.png" id="3_0veqf"]
+[ext_resource type="Shader" path="res://shaders/ocean.gdshader" id="4_pb4yj"]
+[ext_resource type="ArrayMesh" uid="uid://c45awlvh220wx" path="res://assets/blender/world_mesh.obj" id="5_qncqm"]
+[ext_resource type="Shader" path="res://shaders/rolling.gdshader" id="6_bynpf"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_hxtat"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_72yuh"]
 
@@ -19,12 +20,12 @@ albedo_color = Color(0.602395, 0.68656, 0.993038, 1)
 billboard_mode = 1
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_gubsm"]
-size = Vector2(100, 100)
-subdivide_depth = 20
+size = Vector2(100, 10000)
+subdivide_depth = 2000
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_00xug"]
 render_priority = 0
-shader = ExtResource("4_y7bha")
+shader = ExtResource("4_pb4yj")
 shader_parameter/active = true
 shader_parameter/remap_normals = true
 shader_parameter/RADIUS = 35.0
@@ -33,16 +34,12 @@ shader_parameter/WATER_COL = Color(0.04, 0.38, 0.88, 1)
 shader_parameter/WATER2_COL = Color(0.0319583, 0.323766, 0.727357, 1)
 shader_parameter/FOAM_COL = Color(0.335608, 0.583814, 0.994776, 1)
 shader_parameter/distortion_speed = 2.0
-shader_parameter/tile = Vector2(1000, 1000)
+shader_parameter/tile = Vector2(1000, 100000)
 shader_parameter/wave_speed = 1.5
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_hxtat"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_tkduv"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_crds3"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l3iw8"]
 render_priority = 0
-shader = ExtResource("5_6ydy4")
+shader = ExtResource("6_bynpf")
 shader_parameter/active = true
 shader_parameter/remap_normals = true
 shader_parameter/RADIUS = 35.0
@@ -52,7 +49,7 @@ shader_parameter/point_size = null
 shader_parameter/roughness = null
 shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = null
-shader_parameter/metallic = null
+shader_parameter/metallic = 0.0
 
 [node name="Node3D" type="Node3D"]
 
@@ -63,17 +60,22 @@ light_indirect_energy = 0.0
 light_volumetric_fog_energy = 0.0
 shadow_normal_bias = 0.0
 
+[node name="FloorBoundary" type="StaticBody3D" parent="."]
+
+[node name="Floor" type="CollisionShape3D" parent="FloorBoundary"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_hxtat")
+
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-script = ExtResource("1_kk3xm")
+script = ExtResource("1_iugm4")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 6, 3)
-script = ExtResource("2")
 
 [node name="Sprite3D" type="Sprite3D" parent="Player"]
 billboard = 1
-texture = ExtResource("3_esruw")
+texture = ExtResource("2_ugcop")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("CapsuleShape3D_72yuh")
@@ -83,7 +85,7 @@ shape = SubResource("CapsuleShape3D_72yuh")
 [node name="Clouds" type="Sprite3D" parent="Player/Background"]
 transform = Transform3D(2, 0, 0, 0, 1.99923, -0.0555641, 0, 0.0555641, 1.99923, 0, -6, -20)
 billboard = 1
-texture = ExtResource("7_g336n")
+texture = ExtResource("3_0veqf")
 
 [node name="Sky" type="MeshInstance3D" parent="Player/Background"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -50)
@@ -93,7 +95,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_v38s2")
 
 [node name="Background" type="Node3D" parent="."]
 
-[node name="Ocean" type="StaticBody3D" parent="."]
+[node name="Ocean" type="Node3D" parent="."]
 
 [node name="OceanMesh" type="MeshInstance3D" parent="Ocean"]
 cast_shadow = 2
@@ -101,16 +103,17 @@ mesh = SubResource("PlaneMesh_gubsm")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_00xug")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ocean"]
-shape = SubResource("WorldBoundaryShape3D_hxtat")
+[node name="OceanMesh2" type="MeshInstance3D" parent="Ocean"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
+cast_shadow = 2
+mesh = SubResource("PlaneMesh_gubsm")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_00xug")
 
-[node name="Box" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0.5, 0)
+[node name="TestBlender" type="Node3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Box"]
-shape = SubResource("BoxShape3D_tkduv")
-
-[node name="BoxMesh" type="MeshInstance3D" parent="Box"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-mesh = ExtResource("5_a1cjj")
-surface_material_override/0 = SubResource("ShaderMaterial_crds3")
+[node name="BoxMesh" type="MeshInstance3D" parent="TestBlender"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+mesh = ExtResource("5_qncqm")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_l3iw8")

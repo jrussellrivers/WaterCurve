@@ -3,10 +3,13 @@ res://world.tscn
 res://rolling_log.gdshaderinc
 res://water.gdshaderinc
 res://ocean.gdshader
-res://rolling.gdshader
 res://default_shader.gdshaderinc
+res://rolling.gdshader
 res://default_sprite.gdshaderinc
-res://Player.gd
 res://player_default.gd
-res://parallax_background.gd
-res://clouds.gd
+res://shaders/default_shader.gdshaderinc
+res://scenes/world.tscn
+res://shaders/rolling_log.gdshaderinc
+res://shaders/rolling.gdshader
+res://shaders/water.gdshaderinc
+res://shaders/ocean.gdshader

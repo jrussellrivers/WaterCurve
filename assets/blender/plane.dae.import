@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://mbbec2cf6n5i"
-path="res://.godot/imported/plane.dae-5e0e7e8cd20e027bed8cc44a9ecb6a15.scn"
+path="res://.godot/imported/plane.dae-064673599cba3d1c59aabb14f2dbb6cc.scn"
 
 [deps]
 
-source_file="res://plane.dae"
-dest_files=["res://.godot/imported/plane.dae-5e0e7e8cd20e027bed8cc44a9ecb6a15.scn"]
+source_file="res://assets/blender/plane.dae"
+dest_files=["res://.godot/imported/plane.dae-064673599cba3d1c59aabb14f2dbb6cc.scn"]
 
 [params]
 
