@@ -5,8 +5,9 @@ uniform bool active = true;
 // recommended to keep true 
 uniform bool remap_normals = true;
 // Use RADIUS to determine how warped the world should be.
-uniform float RADIUS = 10.0;
-uniform bool hang = false;
+uniform float RADIUS = 35.0;
+uniform bool hang = true;
+uniform float z_offset = 0.0;
 
 void vertex() {
 	// Vertex displacement math, as a function of dist_z, dist_y
